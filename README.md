@@ -1,6 +1,6 @@
 # My Learning Journey to get a Job
 
-- JQuery ==In Progress==
+- [x] JQuery [In Progress]
 
 ## JQuery
 
