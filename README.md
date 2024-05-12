@@ -1,7 +1,5 @@
 # My Learning Journey to get a Job
 
----
-
 - JQuery ==In Progress==
 
 ## JQuery
