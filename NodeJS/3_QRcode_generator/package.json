@@ -1,0 +1,16 @@
+{
+  "name": "qrcode_generator",
+  "version": "1.0.0",
+  "description": "Generate a QR code",
+  "main": "qrcode_generator.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wan",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^9.2.20",
+    "qr-image": "^3.2.0"
+  }
+}
