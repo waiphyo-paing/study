@@ -66,10 +66,13 @@ read contents of file, replacing the file if it
 Callback - to return `error` and data
 
 Example:
-`fs.readFile("message.txt", "utf-8", (err, data) => {
+
+```
+fs.readFile("message.txt", "utf-8", (err, data) => {
      if (err) throw err;
      console.log(data);
-});`
+});
+```
 
 ---
 
@@ -84,10 +87,12 @@ writes data to a file, replacing the file if it is already exists.
 
 Example:
 
-`fs.writeFile("message.txt", "Hello World(Node File System)", (err) => {
+```
+fs.writeFile("message.txt", "Hello World(Node File System)", (err) => {
      if (err) throw err;
      console.log("The file has been saved.");
-});`
+});
+```
 
 ---
 
@@ -102,10 +107,12 @@ writes data to a file, replacing the file if it is already exists. Similar with 
 
 Example:
 
-`fs.appendFile('qrcode_urls.txt', url, (err) => {
+```
+fs.appendFile('qrcode_urls.txt', url, (err) => {
      if (err) throw err;
      console.log("The file has been saved.");
-});`
+});
+```
 
 ---
 
@@ -127,9 +134,11 @@ Express.js is a **Node.js** web framework.
   `const app = express()`
 
 - **start the app and listen on port(eg: 3000)**
-  `app.listen(3000, () => {
-   console.log("Server is running on port: 3000");
-});`
+  ```
+     app.listen(3000, () => {
+          console.log("Server is running on port: 3000");
+     });
+  ```
 
 **Example:**
 
@@ -139,10 +148,10 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-res.send('Hello World!')
+     res.send('Hello World!')
 })
 
 app.listen(port, () => {
-console.log(`Example app listening on port ${port}`)
+     console.log(`Example app listening on port ${port}`)
 })
 ```
