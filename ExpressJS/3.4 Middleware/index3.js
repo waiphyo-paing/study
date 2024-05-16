@@ -3,9 +3,15 @@ import express from "express";
 const app = express();
 const port = 3000;
 
+function logger(req, res, next){
+  console.log("Request method is: ", req.method);
+  console.log("Request url is: ", req.url);
+  next();
+}
+
 app.use(logger);
 
-app.get("/", (req, res) => {
+app.get("/say/hi", (req, res) => {
   res.send("Hello");
 });
 
