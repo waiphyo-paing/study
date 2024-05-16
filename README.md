@@ -114,8 +114,6 @@ fs.appendFile('qrcode_urls.txt', url, (err) => {
 });
 ```
 
----
-
 ## Express.js
 
 Express.js is a **Node.js** web framework.
