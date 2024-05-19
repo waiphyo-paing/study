@@ -1,8 +1,8 @@
 # My Learning Journey to get a Job
 
-- [x] JQuery [In Progress]
-- [] NodeJS [In Progress]
-- [] Express.js [In Progress]
+- JQuery [In Progress]
+- NodeJS [In Progress]
+- Express.js [In Progress]
 
 ## JQuery
 
@@ -26,9 +26,9 @@ What I considered
 
 Made 3 projects with NodeJS.
 
-- File system(fs): create, write and read file with NodeJS - ==need to Learn more in Future==.
-- NPM: node package manager - learned packages - ==need to Learn more in Future==.
-- Qr Code Generator: generate a qr code depend on user input. Used ==inquirer== to get the user input(URL) and ==File system(fs)== to create file for qr code and url history.
+- File system(fs): create, write and read file with NodeJS.
+- NPM: node package manager - learned packages.
+- Qr Code Generator: generate a qr code depend on user input. Used **inquirer** package to get the user input(URL) and **File system(fs)** to create file for qr code and url history.
 
 ### Node Package Manager - NPM
 
@@ -54,10 +54,9 @@ To use this -
 old - `const fs = require('fs');`
 modern - `import fs from "fs";`
 
-### Basic methods or methods I have use
+### Basic methods or methods I used
 
-**fs.readFile**
-read contents of file, replacing the file if it
+**fs.readFile** - read contents of file, replacing the file if it
 
 `fs.readFile(file, option, callback)`
 
@@ -74,10 +73,7 @@ fs.readFile("message.txt", "utf-8", (err, data) => {
 });
 ```
 
----
-
-**fs.writeFile**
-writes data to a file, replacing the file if it is already exists.
+**fs.writeFile** - writes data to a file, replacing the file if it is already exists.
 
 `fs.writeFile(file, data:String, option)`
 
@@ -94,10 +90,7 @@ fs.writeFile("message.txt", "Hello World(Node File System)", (err) => {
 });
 ```
 
----
-
-**fs.appendFile**
-writes data to a file, replacing the file if it is already exists. Similar with **fs.writeFile**
+**fs.appendFile** - writes data to a file, replacing the file if it is already exists. Similar with **fs.writeFile**
 
 `fs.appendFile(file, data:String, option)`
 
@@ -113,6 +106,8 @@ fs.appendFile('qrcode_urls.txt', url, (err) => {
      console.log("The file has been saved.");
 });
 ```
+
+---
 
 ## Express.js
 
@@ -141,15 +136,62 @@ Express.js is a **Node.js** web framework.
 **Example:**
 
 ```
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const port = 3000;
 
 app.get('/', (req, res) => {
-     res.send('Hello World!')
-})
+     res.send('Hello World!');
+});
 
 app.listen(port, () => {
-     console.log(`Example app listening on port ${port}`)
-})
+     console.log(`Example app listening on port ${port}`);
+});
 ```
+
+**[path](https://nodejs.org/api/path.html)** - provides utilities for working with files and directory paths.
+
+- **path.dirname(path)** - return directory name of the `path`
+
+**[url](https://nodejs.org/api/url.html)** - provides utilities for URL resolution and parsing
+
+- **url.fileUrlToPath(url[, option])** - convert URL to file path.
+
+**res.sendFile(path, [, option] [, fn])** - transfers the file at given path
+
+### [Middlewares](https://expressjs.com/en/guide/using-middleware.html)
+
+_Middleware_ functions are function that have access to the request object (req), the response object (res), and the next middleware function in the application's request-response cycle.
+
+_Middleware_ functions can perform the following tasks:
+
+- Execute any code.
+- Make changes to the request and the response objects.
+- End the request-response cycle.
+- Call the next middleware function in the stack.
+
+If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
+
+An Express application can use the following types of middleware:
+
+<!-- - [Application-level middleware](https://expressjs.com/en/guide/using-middleware.html#middleware.application)
+- [Router-level middleware](https://expressjs.com/en/guide/using-middleware.html#middleware.router)
+- [Error-handling middleware](https://expressjs.com/en/guide/using-middleware.html#middleware.error-handling)
+- [Built-in middleware](https://expressjs.com/en/guide/using-middleware.html#middleware.built-in)
+- [Third-party middleware](https://expressjs.com/en/guide/using-middleware.html#middleware.third-party) -->
+
+- [Application-level middleware](#application-level-middleware)
+- [Router-level middleware](#router-level-middleware)
+- [Error-handling middleware](#error-handling-middleware)
+- [Built-in middleware](#built-in-middleware)
+- [Third-party middleware](#third-party-middleware)
+
+### Application-level middleware
+
+### Router-level middleware
+
+### Error-handling middleware
+
+### Built-in middleware
+
+### Third-party middleware
