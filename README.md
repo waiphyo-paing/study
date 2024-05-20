@@ -22,7 +22,7 @@ What I considered
 : need more logical thinking
 : how to search if I dun know anything
 
-## NodeJS
+# NodeJS
 
 Made 3 projects with NodeJS.
 
@@ -109,7 +109,7 @@ fs.appendFile('qrcode_urls.txt', url, (err) => {
 
 ---
 
-## Express.js
+# Express.js
 
 Express.js is a **Node.js** web framework.
 
@@ -157,7 +157,9 @@ app.listen(port, () => {
 
 - **url.fileUrlToPath(url[, option])** - convert URL to file path.
 
-**res.sendFile(path, [, option] [, fn])** - transfers the file at given path
+`res.sendFile(path, [, option] [, fn])` - transfers the file at given path
+
+`res.render(view)` - method to render view and send rendered HTML([EJS](#ejs---embedded-javascript-templating)) string to client.
 
 ### [Middlewares](https://expressjs.com/en/guide/using-middleware.html)
 
@@ -195,3 +197,16 @@ An Express application can use the following types of middleware:
 ### Built-in middleware
 
 ### Third-party middleware
+
+# EJS - Embedded JavaScript templating
+
+EJS is templating language to generate HTML markup with plain JavaScript
+
+run `npm i ejs` to install ejs
+
+- `<% %>` - to render JavaScript file
+- `<%= %>` - return value inside HTML
+- `<%- %>` - render EJS inside HTML markup
+- `<%# %>` - comment
+- `<%_ %>`
+- `<%%` - return `<%`
