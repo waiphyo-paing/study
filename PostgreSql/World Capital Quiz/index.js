@@ -1,14 +1,36 @@
 import express from "express";
 import bodyParser from "body-parser";
+import pg from "pg";
+import { configDotenv } from "dotenv";
+
+configDotenv();
 
 const app = express();
 const port = 3000;
+
+const db = new pg.Client({
+  user: process.env.DATABASE_USER,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT
+});
+
+db.connect();
 
 let quiz = [
   { country: "France", capital: "Paris" },
   { country: "United Kingdom", capital: "London" },
   { country: "United States of America", capital: "New York" },
 ];
+
+db.query("SELECT * from capitals", (err, res) => {
+  if(err){
+    console.error("Error executing query", err.stack);
+  }else{
+    quiz = res.rows;
+  }
+});
 
 let totalCorrect = 0;
 
