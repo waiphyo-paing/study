@@ -27,6 +27,8 @@ db.query("SELECT * FROM flags", (err, res) => {
     console.log(res.rows);
     quiz = res.rows;
   }
+
+  db.end();
 });
 
 let totalCorrect = 0;
