@@ -36,13 +36,22 @@ async function getAllCountries(){
   }
 }
 
-async function addVisitedCountryData(country_code, country_name){
+async function addVisitedCountryData(country_code){
   try{
     await db.query("INSERT INTO visited_countries (country_code) VALUES ($1)", [country_code]);
-    console.log("Added data successfully.");
+    console.log('added');
   }catch(err) {
     console.error("Error adding data tt");
     throw err;
+  };
+};
+
+async function findCountry(queryCountryName){
+  try {
+    const res = await db.query("SELECT country_code FROM countries WHERE LOWER(country_name) LIKE '%' || $1 || '%'", [queryCountryName.toLowerCase()]);
+    return res.rows[0];
+  }catch(err) {
+    console.log("Country not found");
   };
 };
 
@@ -60,7 +69,6 @@ app.set('view engine', 'ejs');
 
 app.get("/", async (req, res) => {
   //Write your code here.
-  console.log('working');
   try{
     const countries = await getAllVistedCountries();
     const total = countries.length;
@@ -73,8 +81,11 @@ app.get("/", async (req, res) => {
 
 app.post('/add', async (req, res) => {
   try{
-    const insertedCountry = req.body.country.trim();
-    const country = allCountries.find(c => c.country_name.toLowerCase().trim() === insertedCountry.toLowerCase());
+    const insertedCountry = req.body.country;
+    // const country = allCountries.find(c => c.country_name.toLowerCase().trim() === insertedCountry.toLowerCase());
+
+    const country = await findCountry(insertedCountry);
+    errMsg = "";
 
     if(!country){
       errMsg = "Sorry, we couldn't find the country that you enter.";
@@ -85,7 +96,7 @@ app.post('/add', async (req, res) => {
       res.redirect('/');
     }
   }catch (err) {
-    errMsg = "The country that you entered is already exists.";
+    errMsg = "The country that you entered is already exist.";
     console.log(err.detail);
     res.redirect('/');
   };
