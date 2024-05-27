@@ -41,12 +41,13 @@ async function addVisitedCountryData(country_code, country_name){
     await db.query("INSERT INTO visited_countries (country_code) VALUES ($1)", [country_code]);
     console.log("Added data successfully.");
   }catch(err) {
-    console.error("Error adding data dsd");
+    console.error("Error adding data tt");
     throw err;
   };
 };
 
 // Fetch all countries once at server startup
+let errMsg;
 let allCountries = [];
 (async () => {
   allCountries = await getAllCountries();
@@ -63,9 +64,8 @@ app.get("/", async (req, res) => {
   try{
     const countries = await getAllVistedCountries();
     const total = countries.length;
-    console.log(countries);
 
-    res.render('index.ejs', {countries: countries, total: total});
+    res.render('index.ejs', {countries: countries, total: total, error: errMsg});
   }catch(err){
     res.status(500).send("Error retrieving data");
   }
@@ -77,15 +77,17 @@ app.post('/add', async (req, res) => {
     const country = allCountries.find(c => c.country_name.toLowerCase().trim() === insertedCountry.toLowerCase());
 
     if(!country){
-      res.status(404).send("Country not found");
+      errMsg = "Sorry, we couldn't find the country that you enter.";
+      res.redirect('/');
     }else{
       const { country_code } = country;
       await addVisitedCountryData(country_code);
       res.redirect('/');
     }
   }catch (err) {
-    console.error("Error adding data: " + err);
-    res.status(500).send("Error adding data");
+    errMsg = "The country that you entered is already exists.";
+    console.log(err.detail);
+    res.redirect('/');
   };
 });
 
