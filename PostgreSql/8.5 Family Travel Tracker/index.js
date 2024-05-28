@@ -33,8 +33,7 @@ let currentUserId = 1;
 
 // Functions
 async function checkVisisted() {
-  const result = await db.query("SELECT country_code FROM visited_countries");
-  // const result = await db.query("SELECT u.id, u.name, u.color, vc.country_code FROM users u INNER JOIN visited_countries vc ON u.id = vc.user_id");
+  const result = await db.query("SELECT country_code FROM visited_countries;");
   let countries = [];
   result.rows.forEach((country) => {
     countries.push(country.country_code);
@@ -50,22 +49,66 @@ async function getUsers(){
   });
 }
 
+async function getUserWithVisitedCountries (userId) {
+  const query = `
+      SELECT u.id, u.name, u.color, vc.country_code
+      FROM users u
+      LEFT JOIN visited_countries vc ON u.id = vc.user_id
+      WHERE u.id = $1;
+  `;
+  const values = [userId];
+  const res = await db.query(query, values);
+
+  if (res.rows.length === 0) {
+      return null;
+  }
+
+  const user = {
+      id: res.rows[0].id,
+      name: res.rows[0].name,
+      color: res.rows[0].color,
+      countries: res.rows
+          .filter(row => row.country_code !== null)
+          .map(row => row.country_code)
+  };
+
+  return user;
+};
+
+async function addUser(name, color){
+  try{
+    const query = `
+      INSERT INTO users (name, color)
+      VALUES ($1, $2);
+    `;
+    const values = [name, color];
+    const res = await db.query(query, values);
+
+    return "Added new user successfully" + res.rows;
+  } catch (err){
+    console.log(err);
+    throw err;
+  }
+}
+
 // Routes
 // ======
 // "/" GET route
 app.get("/", async (req, res) => {
-  const countries = await checkVisisted();
+  const user = await getUserWithVisitedCountries(1);
   res.render("index.ejs", {
-    countries: countries,
-    total: countries.length,
+    countries: user.countries,
+    total: user.countries.length,
     users: users,
-    color: "teal",
+    color: user.color,
+    currentUser_id: user.id
   });
 });
 
 // "/add" POST route
 app.post("/add", async (req, res) => {
   const input = req.body["country"];
+  const user_id = parseInt(req.body['currentUser_id']);
 
   try {
     const result = await db.query(
@@ -77,8 +120,8 @@ app.post("/add", async (req, res) => {
     const countryCode = data.country_code;
     try {
       await db.query(
-        "INSERT INTO visited_countries (country_code) VALUES ($1)",
-        [countryCode]
+        "INSERT INTO visited_countries (country_code, user_id) VALUES ($1, $2)",
+        [countryCode, user_id]
       );
       res.redirect("/");
     } catch (err) {
@@ -92,14 +135,39 @@ app.post("/add", async (req, res) => {
 // "/user" POST route
 app.post("/user", async (req, res) => {
   const addMethod = req.body['add'];
-  const user = users.find(u => u.id === parseInt(req.body['user']));
 
-  res.redirect('/');
+  if(req.body['user']){
+    // const user = users.find(u => u.id === parseInt(req.body['user']));
+    const user = await getUserWithVisitedCountries(parseInt(req.body['user']));
+    res.render("index.ejs", {
+      countries: user.countries,
+      total: user.countries.length,
+      users: users,
+      color: user.color,
+      currentUser_id: user.id
+    });
+  }else if(req.body['add']){
+    res.render('new.ejs');
+  }
 });
 
 app.post("/new", async (req, res) => {
   //Hint: The RETURNING keyword can return the data that was inserted.
   //https://www.postgresql.org/docs/current/dml-returning.html
+
+  const data = await addUser(req.body['name'], req.body['color']);
+
+  users = [];
+  await getUsers();
+  
+  const user = await getUserWithVisitedCountries(1);
+  res.render("index.ejs", {
+    countries: user.countries,
+    total: user.countries.length,
+    users: users,
+    color: user.color,
+    currentUser_id: user.id
+  });
 });
 
 app.listen(port, () => {

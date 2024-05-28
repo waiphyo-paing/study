@@ -23,6 +23,7 @@
   </form>
 
   <form action="/add" method="post">
+    <input type="hidden" name="currentUser_id" value="<%= currentUser_id %>">
     <input type="text" name="country" autofocus placeholder="<%= locals.error ? error :  'Enter country name'%>">
     <button type="submit" style="background-color: <%= color %>;">Add</button>
   </form>
@@ -389,7 +390,6 @@
   </h2>
   <script>
     const country_codes = "<%= countries %>".split(",")
-    console.log(typeof ("<%= countries %>"))
     country_codes.forEach(code => {
       document.getElementById(code).style.fill = "<%= color %>"
     });
