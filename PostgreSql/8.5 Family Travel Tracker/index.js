@@ -32,6 +32,7 @@ let currentUserId = 1;
 })();
 
 // Functions
+// Check visited countries
 async function checkVisisted() {
   const result = await db.query("SELECT country_code FROM visited_countries;");
   let countries = [];
@@ -42,6 +43,7 @@ async function checkVisisted() {
 }
 
 let users = [];
+// Return all users
 async function getUsers(){
   const result = await db.query("SELECT * FROM users");
   result.rows.forEach(user => {
@@ -49,6 +51,7 @@ async function getUsers(){
   });
 }
 
+// Return users's visited countries
 async function getUserWithVisitedCountries (userId) {
   const query = `
       SELECT u.id, u.name, u.color, vc.country_code
@@ -75,6 +78,7 @@ async function getUserWithVisitedCountries (userId) {
   return user;
 };
 
+// Add new user
 async function addUser(name, color){
   try{
     const query = `
@@ -137,7 +141,6 @@ app.post("/user", async (req, res) => {
   const addMethod = req.body['add'];
 
   if(req.body['user']){
-    // const user = users.find(u => u.id === parseInt(req.body['user']));
     const user = await getUserWithVisitedCountries(parseInt(req.body['user']));
     res.render("index.ejs", {
       countries: user.countries,
