@@ -61,9 +61,6 @@ class TaskService {
   async addTask(taskTitle){
     try{
       await db.query("INSERT INTO items(title) VALUES ($1)", [taskTitle]);
-      await this.getAllTasks();
-
-      console.log("Added new data");
     }catch(err){
       console.log("Error adding data.");
       throw err;
@@ -74,7 +71,6 @@ class TaskService {
   async updateTask(taskId, taskTitle){
     try{
       await db.query("UPDATE items SET title=$1 WHERE id=$2", [taskTitle, taskId]);
-      await this.getAllTasks();
     }catch(err){
       console.log("Error updating task");
       throw err;
@@ -85,7 +81,6 @@ class TaskService {
   async deleteTask(taskId){
     try{
       await db.query("DELETE FROM items WHERE id=$1", [taskId]);
-      await this.getAllTasks();
     }catch (err){
       console.log("Error deleting task");
       throw err;
