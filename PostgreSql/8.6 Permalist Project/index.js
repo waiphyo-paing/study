@@ -1,8 +1,21 @@
 import express from "express";
 import bodyParser from "body-parser";
+import { configDotenv } from "dotenv";
+import pg from "pg";
+
+configDotenv();
 
 const app = express();
 const port = 3000;
+
+const db = new pg.Client({
+  user: process.env.DATABASE_USER,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT
+});
+db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -15,10 +28,11 @@ let items = [
 // Task Service
 class TaskService {
   constructor(){
-    this.tasks = [
-      { id: 1, title: "Buy milk" },
-      { id: 2, title: "Finish homework" },
-    ];
+    // this.tasks = [
+    //   { id: 1, title: "Buy milk" },
+    //   { id: 2, title: "Finish homework" },
+    // ];
+    this.tasks = [];
   }
 
   // Get task template | data format`
@@ -30,8 +44,18 @@ class TaskService {
   }
 
   // Get all tasks
-  getAllTasks(){
-    return this.tasks;
+  async getAllTasks(){
+    // return this.tasks;
+
+    try{
+      const req = await db.query("SELECT * FROM items");
+      this.tasks = req.rows;
+      console.log(this.tasks);
+      return this.tasks;
+    }catch(err){
+      console.log("Error getting data.");
+      throw err;
+    }
   }
 
   // Add task
@@ -72,10 +96,9 @@ class TaskService {
 // Declare TASK SERVICE
 const taskService = new TaskService();
 
-
 // Routing
-app.get("/", (req, res) => {
-  const allTasks = taskService.getAllTasks();
+app.get("/", async (req, res) => {
+  const allTasks = await taskService.getAllTasks();
 
   res.render("index.ejs", {
     listTitle: "Today",
