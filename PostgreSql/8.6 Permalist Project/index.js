@@ -21,7 +21,7 @@ class TaskService {
     ];
   }
 
-  // Get task template | data format
+  // Get task template | data format`
   taskTemplate(taskId, taskTitle){
     return {
       id: taskId,
