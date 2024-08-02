@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createTask, getTasksByProject } from "../services/taskService";
+import { createTask, getTasksByProject, updateTaskStatus } from "../services/taskService";
 
 export const createNewTask = async (req: Request, res: Response): Promise<void> => {
      const { title, description, status, assignedTo, projectId } = req.body;
@@ -22,3 +22,15 @@ export const getTasksForProject = async (req: Request, res: Response): Promise<v
           res.status(500).json({message: "Error retrieving tasks", err});
      }
 }
+
+export const updateTaskStatusController = async (req: Request, res: Response): Promise<void> => {
+     const { taskId } = req.params;
+     const { status } = req.body;
+
+     try{
+          const updatedTask = await updateTaskStatus(taskId, status);
+          res.status(201).json(updatedTask);
+     }catch(err){
+          res.status(500).json({ message: "Error updating status", err });
+     }
+};

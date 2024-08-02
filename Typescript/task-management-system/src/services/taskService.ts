@@ -8,3 +8,7 @@ export const createTask = async (title: string, description: string, status: str
 export const getTasksByProject = async (projectId: string) => {
      return Task.find({ projectId });
 };
+
+export const updateTaskStatus = async (taskId: string, status: string) => {
+     return Task.findByIdAndUpdate(taskId, { status }, { new: true });
+};
