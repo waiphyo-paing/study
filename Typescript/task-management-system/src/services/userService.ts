@@ -1,8 +1,9 @@
 import User from "../models/user.model"
-
+import bcrypt from 'bcryptjs';
 
 export const createUser = async (name: string, email: string, password: string) => {
-     const user = new User({ name, email, password });
+     const hashedPassword = await bcrypt.hash(password, 10);
+     const user = new User({ name: name, email: email, password: hashedPassword });
      await user.save();
 
      return user;

@@ -9,7 +9,7 @@ interface IUSER {
 }
 
 const userSchema = new Schema<IUSER> ({
-          name: {type: String},
+          name: {type: String, required: true},
           email: {type: String, required: true, unique: true},
           password: {type: String, required: true},
      },
