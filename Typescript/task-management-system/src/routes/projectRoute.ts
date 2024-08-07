@@ -3,7 +3,7 @@ import { createNewProject, getAllProjectsRoute } from "../controllers/projectCon
 
 const router = Router();
 
-router.post('/create', createNewProject);
 router.get('/', getAllProjectsRoute);
+router.post('/create', createNewProject);
 
 export default router;

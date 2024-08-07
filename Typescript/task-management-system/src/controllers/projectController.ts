@@ -1,5 +1,19 @@
 import { Request, Response } from "express";
-import { createProject, getAllProjects } from "../services/projectService";
+import { createProject, getAllProjectsService } from "../services/projectService";
+
+export const getAllProjects = async (req: Request, res: Response): Promise<void> => {
+     try{
+          const projects = await getAllProjectsService();
+
+          if(projects.length > 0){
+               res.status(200).json(projects);
+          }
+          
+          res.status(400).json({message: "There is no projects."});
+     }catch(err){
+          res.status(500).json({message: "Error retrieving all projects."});
+     }
+}
 
 export const createNewProject = async (req: Request, res: Response): Promise<void> => {
      const { name, description } = req.body;
@@ -15,10 +29,10 @@ export const createNewProject = async (req: Request, res: Response): Promise<voi
 
 export const getAllProjectsRoute = async (req: Request, res: Response): Promise<void> => {
      try{
-          const allProjects = await getAllProjects();
+          const projects = await getAllProjectsService();
 
-          if(allProjects.length > 0){
-               res.status(200).json(allProjects);
+          if(projects.length > 0){
+               res.status(200).json(projects);
           }else{
                res.status(400).json({message: "There is no project to be shown"});
           }

@@ -5,6 +5,6 @@ export const createProject = async (name: string, description: string) => {
      return await project.save();
 };
 
-export const getAllProjects = async () => {
-     return Project.find();
+export const getAllProjectsService = async () => {
+     return Project.find({});
 };
