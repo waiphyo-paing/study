@@ -1,5 +1,15 @@
 import { Request, Response } from "express";
-import { createUser, findUserByEmail } from "../services/userService";
+import { createUser, findUserByEmail, getAllUsersService } from "../services/userService";
+
+export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
+     try{
+          const users = await getAllUsersService();
+
+          res.status(200).json(users);
+     }catch(err){
+          res.status(500).json({message: "Error retrieving user datas."});
+     }
+}
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
      const { name, email, password } = req.body;
