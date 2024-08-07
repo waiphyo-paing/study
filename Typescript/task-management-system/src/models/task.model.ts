@@ -13,9 +13,9 @@ export interface ITASK {
 const taskSchema = new Schema({
           title: { type: String, require: true },
           description: { type: String, require: true },
-          status: { type: String, require: true, enum: ['pending', 'in-progree', 'completed'] },
-          assignedTo: { type: mongoose.Types.ObjectId, ref: 'User', require: true },
-          projectId: { type: mongoose.Types.ObjectId, ref: 'Project', require: true },
+          status: { type: String, require: true, enum: ['pending', 'in-progress', 'completed'] },
+          assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true },
+          projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Project', require: true },
      },{
           timestamps: true,
      }

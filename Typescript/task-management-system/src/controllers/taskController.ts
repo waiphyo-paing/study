@@ -3,6 +3,7 @@ import { createTask, getTasksByProject, updateTaskStatus } from "../services/tas
 
 export const createNewTask = async (req: Request, res: Response): Promise<void> => {
      const { title, description, status, assignedTo, projectId } = req.body;
+     console.log('start creating task');
 
      try{
           const newTask = await createTask(title, description, status, assignedTo, projectId);
@@ -13,7 +14,8 @@ export const createNewTask = async (req: Request, res: Response): Promise<void> 
 };
 
 export const getTasksForProject = async (req: Request, res: Response): Promise<void> => {
-     const { projectId } = req.body;
+     const projectId: number = parseInt(req.params.projectId);
+     console.log(projectId);
 
      try{
           const tasks = await getTasksByProject(projectId);
@@ -23,7 +25,7 @@ export const getTasksForProject = async (req: Request, res: Response): Promise<v
      }
 }
 
-export const updateTaskStatusController = async (req: Request, res: Response): Promise<void> => {
+export const changeTaskStatus = async (req: Request, res: Response): Promise<void> => {
      const { taskId } = req.params;
      const { status } = req.body;
 
